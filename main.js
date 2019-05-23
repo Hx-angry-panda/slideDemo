@@ -1,42 +1,46 @@
-$('.images img:nth-child(1)').addClass('current')
-$('.images img:nth-child(2)').addClass('enter')
-$('.images img:nth-child(3)').addClass('enter')
-setTimeout(function(){
-    $('.images img:nth-child(1)').removeClass('current enter').addClass('leave')
-    $('.images img:nth-child(2)').removeClass('enter right').addClass('current')
-    $('.images img:nth-child(1)').one('transitionend',function(x){
-        $('.images img:nth-child(1)').removeClass('leave').addClass('right')
-    })
-},3000)
+let n = 1
+init()
 
-setTimeout(function(){
-    $('.images img:nth-child(2)').removeClass('current enter').addClass('leave')
-    $('.images img:nth-child(3)').removeClass('enter right').addClass('current')
-    $('.images img:nth-child(2)').one('transitionend',function(x){
-        $('.images img:nth-child(2)').removeClass('leave').addClass('right')
-    })
-},6000)
+setInterval(() => {
+    makeLeave(getImage(n))
+        .one('transitionend',function(x){
+            makeEnter($(x.currentTarget))
+        })
+    makeCurrent(getImage(n+1))
+    n = n + 1
+}, 3000);
 
-setTimeout(function(){
-    $('.images img:nth-child(3)').removeClass('current enter').addClass('leave')
-    $('.images img:nth-child(1)').removeClass('enter right').addClass('current')
-    $('.images img:nth-child(3)').one('transitionend',function(x){
-        $('.images img:nth-child(3)').removeClass('leave').addClass('right')
-    })
-},9000)
+// 获取图片
+function getImage(n){
+    return $(`.images img:nth-child(${x(n)})`)
+}
 
-setTimeout(function(){
-    $('.images img:nth-child(1)').removeClass('current enter').addClass('leave')
-    $('.images img:nth-child(2)').removeClass('enter right').addClass('current')
-    $('.images img:nth-child(1)').one('transitionend',function(x){
-        $('.images img:nth-child(1)').removeClass('leave').addClass('right')
-    })
-},12000)
+// 初始化图片位置
+function init(){
+    n = 1
+    $(`.images img:nth-child(${n})`).addClass('current')
+        .siblings().addClass('enter')
+}
 
-setTimeout(function(){
-    $('.images img:nth-child(2)').removeClass('current enter').addClass('leave')
-    $('.images img:nth-child(3)').removeClass('enter right').addClass('current')
-    $('.images img:nth-child(2)').one('transitionend',function(x){
-        $('.images img:nth-child(2)').removeClass('leave').addClass('right')
-    })
-},15000)
+// 图片位置
+function makeCurrent($node){
+    $node.removeClass('enter leave').addClass('current')
+}
+function makeLeave($node){
+    $node.removeClass('current enter').addClass('leave')
+    return $node
+}
+function makeEnter($node){
+    $node.removeClass('leave current').addClass('enter')
+}
+
+// 无缝切换图片的循环
+function x(n) {
+    if (n > 3){
+        n = n % 3
+        if (n === 0){
+            n = 3
+        }
+    }
+    return n
+}
