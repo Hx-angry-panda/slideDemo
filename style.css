@@ -1,31 +1,18 @@
-*{box-sizing: border-box;}
+*{
+  box-sizing: border-box;
+}
 .window{
-  width: 300px;
-  height: 200px;
-  margin: 20px auto;
+  width: 400px;
+  height: 300px;
   overflow: hidden;
+  margin: 20px auto;
 }
 .images{
   display: flex;
-  position: relative;
+  transition: all 0.5s;
 }
 .images img{
   width: 100%;
-  transition: all 0.3s;
-  position: absolute;
-  top: 0; 
-}
-.images img.right{ /* 这里别用.right */
-  left: 100%;
-}
-.current{
-  left: 0;
-  transform: translateX(0);
-  z-index: 1;
-}
-.leave{
-  transform: translateX(-100%);
-}
-.enter{
-  transform: translateX(100%);
+  flex-shrink:0; /*  flex-shrink 主要处理当flex容器空间不足时候，单个元素的收缩比例 */ 
+  /* 不加的话部分 img 的宽度会变小 */
 }
